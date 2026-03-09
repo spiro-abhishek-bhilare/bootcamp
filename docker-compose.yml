@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: app-name:latest
+    image: boot-camp:latest
     build:
       target: web
       context: .
@@ -14,26 +14,26 @@ services:
       - .:/var/www/html
     depends_on:
       - db
+      - redis
   
   db:
     platform: "linux/amd64"
-    image: mysql:5.7
+    image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: laravel
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+  
     ports:
       - "3306:3306"
     volumes:
       - dbdata:/var/lib/mysql
- redis:
+  redis:
     image: redis:latest
     container_name: my-redis
     ports:
     - '6379:6379'
-    volumes:
-    - redis-data:/data
+    # volumes:
+    # - redis-data:/data
     environment:
     - REDIS_ARGS=--requirepass root --appendonly yes
     restart: unless-stopped
